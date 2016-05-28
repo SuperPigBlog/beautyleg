@@ -8,8 +8,8 @@ android {
         applicationId "com.qtfreet.beautyleg"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
-        versionName "0.1"
+        versionCode 3
+        versionName "0.5"
     }
     buildTypes {
         release {
@@ -35,8 +35,10 @@ dependencies {
     compile 'com.android.support:support-v4:23.2.0'
     compile 'com.squareup.retrofit2:retrofit:2.0.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0'
-    compile 'com.zhy:okhttputils:2.4.1'
+    compile 'com.zhy:okhttputils:2.3.8'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.okio:okio:1.6.0'
     compile project(':giraffeplayer')
+    compile files('libs/pgyer_sdk_2.2.2.jar')
+    compile 'com.liulishuo.filedownloader:library:0.3.0'
 }

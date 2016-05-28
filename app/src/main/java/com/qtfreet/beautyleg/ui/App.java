@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.widget.Toast;
 
+import com.liulishuo.filedownloader.FileDownloader;
 import com.qtfreet.beautyleg.R;
 import com.qtfreet.beautyleg.utils.Utils;
 
@@ -48,8 +49,10 @@ public class App extends Application {
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
-        if(!Utils.isWifi(this)){
-            Toast.makeText(this, R.string.nowifi,Toast.LENGTH_SHORT).show();
+        FileDownloader.init(getApplicationContext());
+        FileDownloader.setGlobalPost2UIInterval(1000);
+        if (!Utils.isWifi(this)) {
+            Toast.makeText(this, R.string.nowifi, Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -36,7 +36,10 @@ public class VideoActivity extends AppCompatActivity {
         App.getInstance().addActivity(VideoActivity.this);
         init();
         play();
+
     }
+
+
 
     private void play() {
         player = new GiraffePlayer(this);
@@ -108,11 +111,13 @@ public class VideoActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
         if (player != null) {
             player.onDestroy();
         }
     }
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -124,9 +129,11 @@ public class VideoActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
         if (player != null && player.onBackPressed()) {
             return;
         }
+
         super.onBackPressed();
     }
 

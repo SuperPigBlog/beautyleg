@@ -55,7 +55,7 @@ public class SaveImageTask extends AsyncTask<String, Void, File> {
             int bytesum = 0;
             int byteread = 0;
 
-            File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/PicSave");
+            File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/BeautyLegDown/");
             if (!path.exists() && !path.isDirectory()) {
                 path.mkdir();
             }

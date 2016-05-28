@@ -28,7 +28,7 @@ public class GirlDetailAdapter extends RecyclerView.Adapter<GirlDetailAdapter.Gi
 
     @Override
     public GirlsViewHodler onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.girls_layout, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.girls_layout_detail, parent, false);
         return new GirlsViewHodler(view);
     }
 

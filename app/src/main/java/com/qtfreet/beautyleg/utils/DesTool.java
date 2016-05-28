@@ -48,10 +48,10 @@ public final class DesTool {
         return v3;
     }
 
-    public static String decode(String arg8, String arg9) throws Exception {
+    public static String decode(String content, String deskey) throws Exception {
         int v0 = 0;
-        Key v2 = DesTool.encode(arg9.getBytes());
-        char[] v3 = arg8.toCharArray();
+        Key key = DesTool.encode(deskey.getBytes());
+        char[] v3 = content.toCharArray();
         int v4 = v3.length;
         if((v4 & 1) != 0) {
             throw new RuntimeException("Odd number of characters.");
@@ -68,7 +68,7 @@ public final class DesTool {
         }
 
         Cipher v0_1 = Cipher.getInstance("DES/ECB/PKCS5Padding");
-        v0_1.init(2, v2);
+        v0_1.init(2, key);
         return new String(v0_1.doFinal(v5));
     }
 }

@@ -39,6 +39,13 @@ public class GirlDetailActivity extends AppCompatActivity implements OnMeiziClic
 
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+
     private void load() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2,
@@ -86,6 +93,13 @@ public class GirlDetailActivity extends AppCompatActivity implements OnMeiziClic
         return super.onKeyDown(keyCode, event);
     }
 
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
+    }
+
     @Override
     public void onMeiziClick(View itemView, int position) {
         Intent i = new Intent(GirlDetailActivity.this, DetailActivity.class);
@@ -95,6 +109,7 @@ public class GirlDetailActivity extends AppCompatActivity implements OnMeiziClic
 
     @Override
     public void onMeiziLongClick(View itemView, int position) {
+
 
     }
 }

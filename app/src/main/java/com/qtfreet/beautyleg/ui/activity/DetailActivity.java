@@ -5,13 +5,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.qtfreet.beautyleg.R;
 import com.qtfreet.beautyleg.data.bean.ImageUrlList;
 import com.qtfreet.beautyleg.ui.App;
+import com.qtfreet.beautyleg.utils.SaveImageTask;
+import com.qtfreet.beautyleg.wiget.ActionSheetDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -19,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * Created by qtfreet on 2016/3/5.
  */
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements View.OnLongClickListener {
 
     @Bind(R.id.iv_meizi)
     ImageView image;
@@ -27,6 +34,9 @@ public class DetailActivity extends AppCompatActivity {
     float x2 = 0;
     float y1 = 0;
     float y2 = 0;
+
+    @Bind(R.id.pb_search_wait)
+    ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,13 +48,22 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     int i = 0;
+    String url = "";
 
     private void init() {
         ButterKnife.bind(this);
         i = getIntent().getIntExtra("position", 1);
-        String url = ImageUrlList.bigurl.get(i);
+        url = ImageUrlList.bigurl.get(i);
         Log.e("qtfreet111", url);
-        Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).into(image);
+        progressBar.setVisibility(View.VISIBLE);
+        Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                image.setImageDrawable(resource);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+        image.setOnLongClickListener(this);
 
     }
 
@@ -66,8 +85,17 @@ public class DetailActivity extends AppCompatActivity {
                 if (i > ImageUrlList.url.size()) {
                     return false;
                 }
+                progressBar.setVisibility(View.VISIBLE);
                 Log.e("qtfreet111", ImageUrlList.bigurl.get(i));
-                Glide.with(this).load(ImageUrlList.bigurl.get(i)).diskCacheStrategy(DiskCacheStrategy.ALL).into(image);
+                url = ImageUrlList.bigurl.get(i);
+                Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        image.setImageDrawable(resource);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+
 
             } else if (x2 - x1 > 50) {
                 i--;
@@ -75,11 +103,22 @@ public class DetailActivity extends AppCompatActivity {
                     return false;
                 }
                 Log.e("qtfreet111", ImageUrlList.bigurl.get(i));
-                Glide.with(this).load(ImageUrlList.bigurl.get(i)).diskCacheStrategy(DiskCacheStrategy.ALL).into(image);
+                progressBar.setVisibility(View.VISIBLE);
+                url = ImageUrlList.bigurl.get(i);
+                Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        image.setImageDrawable(resource);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+
+
             }
         }
         return super.onTouchEvent(event);
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //捕获返回键按下的事件
@@ -90,4 +129,20 @@ public class DetailActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public boolean onLongClick(View v) {
+
+        new ActionSheetDialog(this).builder().setTitle("提示").addSheetItem("保存", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
+            @Override
+            public void onClick(int which) {
+                try {
+                    SaveImageTask saveImageTask = new SaveImageTask(DetailActivity.this, String.valueOf(System.currentTimeMillis()));
+                    saveImageTask.execute(url);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).show();
+        return true;
+    }
 }

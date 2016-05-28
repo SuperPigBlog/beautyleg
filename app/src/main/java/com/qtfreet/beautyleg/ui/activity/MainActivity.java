@@ -17,10 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pgyersdk.update.PgyUpdateManager;
 import com.qtfreet.beautyleg.R;
 import com.qtfreet.beautyleg.ui.App;
 import com.qtfreet.beautyleg.ui.adapter.FragmentAdapter;
-
 import com.qtfreet.beautyleg.ui.fragment.GirlFragment;
 import com.qtfreet.beautyleg.utils.Utils;
 import com.qtfreet.beautyleg.wiget.ActionSheetDialog;
@@ -45,12 +45,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        setContentView(R.layout.activity_main);
         initView();
         initData();
+        PgyUpdateManager.register(this);
         App.getInstance().addActivity(MainActivity.this);
     }
+
+
 
     private void initData() {
 
@@ -162,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
